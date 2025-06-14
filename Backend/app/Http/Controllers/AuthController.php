@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Laravel\Sanctum\HasApiTokens; 
-
 
 class AuthController extends Controller
 {
@@ -47,14 +45,20 @@ class AuthController extends Controller
 
 		$user = Auth::user();
 
+		$token = $user->createToken('api-token')->plainTextToken;
+
 		return response()->json([
 			'message' => 'Login successful.',
 			'user' => $user,
+			'token' => $token,
 		]);
 	}
 
 	public function logout(Request $request)
 	{
+		$user = Auth::user();
+		$user->tokens()->delete();
+
 		Auth::logout();
 
 		$request->session()->invalidate();
