@@ -1,5 +1,4 @@
 export default function TodoItem({ todo }) {
-  // todo: { id, todo, priority, deadline_date, status }
   return (
     <li className="flex flex-col md:flex-row md:items-center justify-between gap-2 p-4 border-b">
       <div className="flex-1">
