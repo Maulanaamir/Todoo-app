@@ -1,6 +1,6 @@
 import { useState } from "react";
+import axios from "../api/axios";
 import { useNavigate, Link } from "react-router-dom";
-import { login } from "../api/authApi";
 
 export default function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -12,12 +12,16 @@ export default function LoginForm() {
   const handleSubmit = async e => {
     e.preventDefault();
     setError("");
-    const res = await login(form.email, form.password);
-    if (res.token) {
-      localStorage.setItem("token", res.token);
-      navigate("/todos");
-    } else {
-      setError(res.message || "Login gagal");
+    try {
+      const res = await axios.post("/login", form);
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        navigate("/todos");
+      } else {
+        setError(res.data.message || "Login gagal");
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Login gagal");
     }
   };
 

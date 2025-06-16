@@ -10,7 +10,7 @@
 		"@ianvs/prettier-plugin-sort-imports": "^4.4.1",
 		"@shufo/prettier-plugin-blade": "^1.15.1",
 		"autoprefixer": "^10.4.20",
-		"axios": "^1.7.4",
+		"axios": "^1.10.0",
 		"concurrently": "^9.0.1",
 		"laravel-vite-plugin": "^1.0",
 		"postcss": "^8.4.47",

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { register } from "../api/authApi";
+import axios from "../api/axios";
 
 export default function RegisterForm() {
   const [form, setForm] = useState({
@@ -17,11 +17,19 @@ export default function RegisterForm() {
   const handleSubmit = async e => {
     e.preventDefault();
     setError("");
-    const res = await register(form);
-    if (res.user) {
-      navigate("/login");
-    } else {
-      setError(res.message || "Register gagal");
+    try {
+      const res = await axios.post("/register", form);
+      if (res.data.user) {
+        navigate("/login");
+      } else {
+        setError(res.data.message || "Register gagal");
+      }
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+        (err.response?.data?.errors && Object.values(err.response.data.errors).flat().join(", ")) ||
+        "Register gagal"
+      );
     }
   };
 
